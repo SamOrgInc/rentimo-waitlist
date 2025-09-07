@@ -114,14 +114,36 @@ function App() {
     }
   };
 
+  // Generate a consistent 4-digit number from a string
+  const generateConsistentNumber = (input: string): string => {
+    let hash = 0;
+    for (let i = 0; i < input.length; i++) {
+      const char = input.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    // Convert to positive number and ensure it's 4 digits
+    const positiveHash = Math.abs(hash);
+    const fourDigit = (positiveHash % 9000) + 1000; // Ensures 1000-9999
+    return fourDigit.toString();
+  };
+
   const generateReferralLink = () => {
-    const userId = formData.email
-      .replace("@", "")
-      .replace(".", "")
-      .replace(/[^a-zA-Z0-9]/g, "");
-    const referralCode = `${userId.slice(0, 6)}${Math.random()
-      .toString(36)
-      .substr(2, 3)}`;
+    // Create username from full name (first letter of first name + last name)
+    const nameParts = formData.fullName.trim().toLowerCase().split(' ');
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts[nameParts.length - 1] || '';
+    
+    // Create username: first letter of first name + last name
+    const username = (firstName.charAt(0) + lastName)
+      .replace(/[^a-zA-Z]/g, '') // Remove non-letters
+      .toLowerCase();
+    
+    // Generate consistent 4-digit number based on full name + email
+    const consistentInput = (formData.fullName + formData.email).toLowerCase();
+    const fourDigitCode = generateConsistentNumber(consistentInput);
+    
+    const referralCode = `${username}${fourDigitCode}`;
     return `${window.location.origin}?ref=${referralCode}`;
   };
 
@@ -132,15 +154,13 @@ function App() {
     alert("Referral link copied! Share it to climb up the waitlist.");
   };
 
-  const shareOnTwitter = () => {
+  const shareOnWhatsApp = () => {
     const link = generateReferralLink();
     const text = encodeURIComponent(
-      "Get verified student housing without the stress! Join me on the Rentimo waitlist 🏠"
+      `Get verified student housing without the stress! Join me on the Rentimo waitlist 🏠 ${link}`
     );
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(
-      link
-    )}`;
-    window.open(twitterUrl, "_blank");
+    const whatsappUrl = `https://wa.me/?text=${text}`;
+    window.open(whatsappUrl, "_blank");
     setReferralCount((prev) => prev + 1);
   };
 
@@ -213,7 +233,7 @@ function App() {
               referralCount={referralCount}
               generateReferralLink={generateReferralLink}
               copyReferralLink={copyReferralLink}
-              shareOnTwitter={shareOnTwitter}
+              shareOnWhatsApp={shareOnWhatsApp}
               handleShare={handleShare}
             />
           </div>

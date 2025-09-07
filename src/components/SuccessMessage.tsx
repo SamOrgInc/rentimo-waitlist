@@ -1,11 +1,11 @@
-import { CheckCircle, Gift, Copy, Share2, Twitter } from "lucide-react";
+import { CheckCircle, Gift, Copy, Share2, Share } from "lucide-react";
 
 interface SuccessMessageProps {
   showReferral: boolean;
   referralCount: number;
   generateReferralLink: () => string;
   copyReferralLink: () => void;
-  shareOnTwitter: () => void;
+  shareOnWhatsApp: () => void;
   handleShare: () => void;
 }
 
@@ -14,7 +14,7 @@ export default function SuccessMessage({
   referralCount,
   generateReferralLink,
   copyReferralLink,
-  shareOnTwitter,
+  shareOnWhatsApp,
   handleShare,
 }: SuccessMessageProps) {
   return (
@@ -65,11 +65,11 @@ export default function SuccessMessage({
 
               <div className="flex space-x-2">
                 <button
-                  onClick={shareOnTwitter}
+                  onClick={shareOnWhatsApp}
                   className="flex-1 bg-[#1DA1F2] text-white px-4 py-2 rounded-lg text-sm flex items-center justify-center hover:bg-[#1DA1F2]/90 transition-colors"
                 >
-                  <Twitter className="w-4 h-4 mr-1" />
-                  Share on Twitter
+                  <Share className="w-4 h-4 mr-1" />
+                  Share on WhatsApp
                 </button>
                 <button
                   onClick={handleShare}
