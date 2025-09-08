@@ -63,8 +63,8 @@ export default function Footer() {
             <h4 className="font-semibold mb-4 text-[#FF480E]">Contact</h4>
             <div className="space-y-2 text-gray-300 text-sm">
               <div className="flex items-center">
-                <Mail className="w-4 h-4 mr-2 text-[#FF480E]" />
-                <span>hello@rentimo.ng</span>
+                <Mail className="w-4 h-4 mr-2 text-[#ff480e]" />
+                <span>Contactrentimo@gmail.com</span>
               </div>
               <div className="flex items-center">
                 <Phone className="w-4 h-4 mr-2 text-[#FF480E]" />
